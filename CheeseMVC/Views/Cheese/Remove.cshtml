@@ -1,15 +1,13 @@
 ﻿
-@{
-    Layout = null;
-}
 
 <h1>Remove a cheese</h1>
 <form method="post">
-<select name="removeChesse">
-    <option value="swiss">Swiss</option>
-    <option value="cheddar">Cheddar</option>
-    <option value="provolone">Provolone</option>
-    <option value="mozarella">Mozarella</option>
-</select>
+@foreach(var cheese in ViewBag.cheeses)
+{
+    <input type ="checkbox" name="CheeseIds" id="@cheese.CheeseId " value=" @cheese.CheeseId"/>
+    <label for="@cheese.CheeseId">@cheese.Name</label>
+}
+       
      <input type = "submit" value ="Remove Cheese" />
 </form>
+

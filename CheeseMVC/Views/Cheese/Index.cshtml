@@ -1,47 +1,32 @@
-﻿
-@{
-    Layout = null;
-  
-   
-}
-<h1>My Cheese</h1>
-
-<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
-<p><a asp-controller="Cheese" asp-action="Remove">Remove Cheese</a></p> 
+﻿<h1>@ViewBag.Title</h1>
 
 @if (ViewBag.cheeses.Count == 0)
 {
-    <p>No cheeses yet!!</p>
+    <p>No cheeses yet!</p>
 }
 
+<table class="table">
 
+    <tr> 
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
 
-     @foreach(KeyValuePair<string,string> cheese in ViewBag.cheeses)
+    @foreach (Cheese cheese in ViewBag.cheeses)
     {
-        <div>
-        <h1>
-            @cheese.Key
+        <tr>
+            <td>@cheese.Name</td>
+            <td>@cheese.Description</td>
+        </tr>
+    }
+</table>
 
-            
-        </h1>
-        <p>
-             @cheese.Value
-        </p>
+<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
+
           
 
 
 
-        </div>
-
-       
-       
-     
-
-
-
-
-
-    }
    
 
     

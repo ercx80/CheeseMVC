@@ -3,66 +3,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CheeseMVC.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        //static private List<Dictionary<string,string>> Cheeses = new List<Dictionary<string,string>>();
-        static private Dictionary<string, string> Cheeses = new Dictionary<string, string>();
+
         
-       
-        
-        //static means that it is available to any code within the class
+
         // GET: /<controller>/
         public IActionResult Index()
-
-
         {
-           
+            ViewBag.cheeses = CheeseData.GetAll();
 
-            ViewBag.cheeses = Cheeses;//Here is the code to render the list of cheeses in the view
             return View();
         }
+
         public IActionResult Add()
         {
             return View();
         }
+
         [HttpPost]
         [Route("/Cheese/Add")]
-        public IActionResult NewCheese(string name, string description)//here the method gets the paramether passed by the form
+        public IActionResult NewCheese(Cheese newCheese)//here we receive a cheese object
         {
-            //add the new cheese to existing cheeses
-            Cheeses.Add(name, description);
+            // Add the new cheese to my existing cheeses
+            //Cheeses.Add(new Cheese(name, description));//this is how you add a new cheese based on the constructor
             
+            CheeseData.Add(newCheese);
 
+           
 
-
-            return Redirect("/Cheese");//here redirecting to /Cheese will send the user to the index with the lis of cheeses.
+            return Redirect("/Cheese");
         }
         public IActionResult Remove()
         {
+            ViewBag.title = "Remove Cheeses";
+            ViewBag.cheeses = CheeseData.GetAll();
             return View();
         }
         [HttpPost]
-        [Route("/Cheese/Remove")]
-
-        public IActionResult RemoveCheese(string name)
+        public IActionResult Remove(int[] cheeseIds)//here we recieve an array of cheeses we might want to remove
         {
-            
-            foreach(string cheese in ViewBag.cheeses)
+            foreach(int cheeseId in cheeseIds)
             {
-                Cheeses.Remove(name);
-
-
+                CheeseData.Remove(cheeseId);
             }
             
-            
-           
-            return Redirect("/Cheese");
+            return Redirect("/");
         }
-
     }
 }
